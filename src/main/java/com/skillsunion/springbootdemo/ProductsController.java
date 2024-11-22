@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/products")
 public class ProductsController {
 
+    // create a logger
+    private static final Logger logger = LoggerFactory.getLogger(SpringbootdemoApplication.class);
+
+    // create an array list of Products
     public ArrayList<Product> products = new ArrayList<>();
 
+    // add sample products
     public ProductsController() {
         products.add(new Product("Wireless Bluetooth Earbuds!!!",
                 "Compact and lightweight earbuds with noise cancellation, 6-hour battery life, and water-resistant design. Ideal for workouts and commutes.",
@@ -27,14 +34,18 @@ public class ProductsController {
                 249.99));
     }
 
+    // get all products
     @GetMapping("")
     public ArrayList<Product> getMethodName() {
+        logger.info("All products displayed");
         return products;
     }
 
+    // create one product
     @PostMapping("")
     public Product createOneProduct(@RequestBody Product product) {
         products.add(product);
+        logger.info(product.getName() + " with price of $" + product.getPrice() + " is added");
         return product;
     }
 }
